@@ -1,0 +1,19 @@
+{
+  "name": "pinjem-bang",
+  "version": "1.0.0",
+  "description": "project about rent marketplace",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ayualdilasalma/pinjem-bang.git"
+  },
+  "author": "team o",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ayualdilasalma/pinjem-bang/issues"
+  },
+  "homepage": "https://github.com/ayualdilasalma/pinjem-bang#readme"
+}
