@@ -14,8 +14,19 @@ app.get('/', (req, res) => {
       console.error('error connecting: ' + err.stack);
       return;
     }
-  
+
     console.log('connected as id ' + connection.threadId);
+  });
+  var result = connection.query('SELECT * FROM RentStatuses', function(
+    error,
+    rows,
+    fields
+  ) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log(rows);
+    }
   });
   res.send('Hello world, init project');
 });
