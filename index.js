@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const bodyparser = require('body-parser');
-
+const connection = require('./config/db');
 const port = process.env.PORT || 3200;
 
 // middleware
@@ -9,6 +9,14 @@ const port = process.env.PORT || 3200;
 app.use(bodyparser.urlencoded({ extended: false })); */
 
 app.get('/', (req, res) => {
+  connection.connect(function(err) {
+    if (err) {
+      console.error('error connecting: ' + err.stack);
+      return;
+    }
+  
+    console.log('connected as id ' + connection.threadId);
+  });
   res.send('Hello world, init project');
 });
 
