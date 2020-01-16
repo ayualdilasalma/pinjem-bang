@@ -5,8 +5,11 @@ const connection = require('./config/db');
 const port = process.env.PORT || 3200;
 
 // middleware
-/*app.use(bodyparser.json());
-app.use(bodyparser.urlencoded({ extended: false })); */
+app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({ extended: false }));
+
+var routes = require('./routes');
+routes (app)
 
 app.get('/', (req, res) => {
   connection.connect(function(err) {
