@@ -28,12 +28,12 @@ exports.getUsers = function(req, res){
 
 exports.createOrUpdateUsers = function(req, res){
     
-    let body = req.body;
+    let body = [req.body.UserId , req.body.Name, req.body.Email, req.body.Passcode, now()];
 
-    if(body.UserId == ""){
-        sql = "INSERT INTO Users (UserId, Name, Email, Passcode, StartDateTime) VALUES (?); UPDATE Users SET Users.UserId = LAST_INSERT_ID() WHERE Users.id = LAST_INSERT_ID();";
+    if(req.body.UserId == ""){
+        sql = "INSERT INTO Users (UserId, Name, Email, Passcode) VALUES (?); UPDATE Users SET Users.UserId = LAST_INSERT_ID() WHERE Users.id = LAST_INSERT_ID();";
     } else {
-        sql = "UPDATE Users SET Users.EndDateTime = now() WHERE Users.UserId = ? AND Users.EndDateTime IS NULL; INSERT INTO Users (UserId, Name, Email, Passcode, StartDateTime) VALUES (?);";
+        sql = "UPDATE Users SET Users.EndDateTime = now() WHERE Users.UserId = ? AND Users.EndDateTime IS NULL; INSERT INTO Users (UserId, Name, Email, Passcode) VALUES (?);";
     }
 
     connection.query(sql, [req.body], function (error, rows, fields){
