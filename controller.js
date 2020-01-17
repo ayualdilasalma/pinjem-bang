@@ -18,9 +18,9 @@ exports.getAllUsers = function(req, res){
 
 //USER GetById
 exports.getUsers = function(req, res){
-    var userId = req.params.UserId;
+    let UserId = req.params.UserId;
     sql = 'SELECT Users.* FROM Users WHERE Users.UserId = ? AND Users.EndDateTime IS NULL';
-    connection.query(sql, [userId] , function (error, rows, fields){
+    connection.query(sql, [UserId] , function (error, rows, fields){
         if(error){
             console.log(error)
         } else{
@@ -88,9 +88,9 @@ exports.getAllRoles = function(req, res){
 
 //Role GetById
 exports.getRoles = function(req, res){
-    var userId = req.params.UserId;
+    let RoleId = req.params.RoleId;
     sql = 'SELECT Roles.* FROM Users WHERE Roles.RoleId = ? AND Roles.EndDateTime IS NULL';
-    connection.query(sql, [userId] , function (error, rows, fields){
+    connection.query(sql, [RoleId] , function (error, rows, fields){
         if(error){
             console.log(error)
         } else{
@@ -102,8 +102,8 @@ exports.getRoles = function(req, res){
 //Role Create or Update
 exports.createOrUpdateRoles = function(req, res){
     
-    let body = [req.body.UserId , req.body.Name, req.body.Description];
-    let RoleId = req.body.UserId;
+    let body = [req.body.RoleId , req.body.Name, req.body.Description];
+    let RoleId = req.body.RoleId;
     if(RoleId == ""){
         body.shift();
         sql = 'INSERT INTO Roles (Name, Description) VALUES (?); UPDATE Users SET Users.UserId = LAST_INSERT_ID() WHERE Roles.id = LAST_INSERT_ID();';
@@ -131,10 +131,10 @@ exports.createOrUpdateRoles = function(req, res){
 
 //ROLE Delete
 exports.deleteRoles = function (req, res){
-    let RoleId = req.params.UserId;
+    let RoleId = req.params.RoleId;
     sql = 'UPDATE Roles SET Roles.EndDateTime = now() WHERE Roles.RolesId = ? AND Roles.EndDateTime IS NULL;';
 
-    connection.query(sql, [UserId], function (error, rows, fields){
+    connection.query(sql, [RoleId], function (error, rows, fields){
         if(error){
             console.log(error)
         } else{
