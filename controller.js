@@ -5,7 +5,7 @@ var connection = require('./config/db');
 var sql ='';
 
 exports.getAllUsers = function(req, res){
-    connection.query('SELECT * FROM Users', function (error, rows, fields){
+    connection.query('SELECT * FROM Users WHERE Users.EndDateTime ISNULL', function (error, rows, fields){
         if(error){
             console.log(error)
         } else{
@@ -15,7 +15,7 @@ exports.getAllUsers = function(req, res){
 }
 
 exports.getUsers = function(req, res){
-    var userId = req.body.UserId;
+    var userId = req.params.UserId;
     sql = 'SELECT Users.* FROM Users WHERE Users.UserId = ? AND Users.EndDateTime IS NULL';
     connection.query(sql, [userId] , function (error, rows, fields){
         if(error){
@@ -56,7 +56,7 @@ exports.createOrUpdateUsers = function(req, res){
 }
 
 exports.deleteUsers = function (req, res){
-    let UserId = req.body.UserId;
+    let UserId = req.params.UserId;
     sql = 'UPDATE Users SET Users.EndDateTime = now() WHERE Users.UserId = ? AND Users.EndDateTime IS NULL;';
 
     connection.query(sql, [UserId], function (error, rows, fields){
