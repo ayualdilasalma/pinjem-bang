@@ -1,4 +1,5 @@
 const sql = require('../config/db');
+var response = require('../config/res');
 
 // constructor
 const Item = function(item) {
@@ -21,15 +22,14 @@ Item.create = (newItem, result) => {
   });
 };
 
-Item.getAll = result => {
-  sql.query('SELECT * FROM Items', (err, res) => {
+Item.getAll = (req, res) => {
+  sql.query('SELECT * FROM Items', (err, row, fields) => {
     if (err) {
       console.log('error: ' + err);
       result(null, err);
       return;
     }
-    console.log('customer: ', res);
-    result(null, res);
+    response.ok(row, res);
   });
 };
 

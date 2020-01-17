@@ -1,7 +1,6 @@
-module.exports = app => {
-  const item = require('../controller/item');
+'use strict';
 
-  app.post('/items', item.create);
-
-  app.get('/items', item.findAll);
+module.exports = function(app) {
+  var item = require('../model/item.model');
+  app.route('/items').get(item.getAll);
 };
