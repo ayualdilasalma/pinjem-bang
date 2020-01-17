@@ -16,7 +16,7 @@ exports.getAllUsers = function(req, res){
 
 exports.getUsers = function(req, res){
     var userId = req.body.UserId;
-    sql = "SELECT Users.* FROM Users WHERE Users.UserId = ? AND Users.EndDateTime IS NULL";
+    sql = 'SELECT Users.* FROM Users WHERE Users.UserId = ? AND Users.EndDateTime IS NULL';
     connection.query(sql, [userId] , function (error, rows, fields){
         if(error){
             console.log(error)
@@ -28,28 +28,38 @@ exports.getUsers = function(req, res){
 
 exports.createOrUpdateUsers = function(req, res){
     
-    let body = [req.body.UserId , req.body.Name, req.body.Email, req.body.Passcode, now()];
+    let body = [req.body.UserId , req.body.Name, req.body.Email, req.body.Passcode];
+    let UserId = req.body.UserId;
+    if(UserId == ""){
+        body.shift();
+        sql = 'INSERT INTO Users (Name, Email, Passcode) VALUES (?); UPDATE Users SET Users.UserId = LAST_INSERT_ID() WHERE Users.id = LAST_INSERT_ID();';
+    
+        connection.query(sql,[body], function (error, rows, fields){
+            if(error){
+                console.log(error)
+            } else{
+                response.ok("user updated", res)
+            }
+        })
 
-    if(req.body.UserId == ""){
-        sql = "INSERT INTO Users (UserId, Name, Email, Passcode) VALUES (?); UPDATE Users SET Users.UserId = LAST_INSERT_ID() WHERE Users.id = LAST_INSERT_ID();";
     } else {
-        sql = "UPDATE Users SET Users.EndDateTime = now() WHERE Users.UserId = ? AND Users.EndDateTime IS NULL; INSERT INTO Users (UserId, Name, Email, Passcode) VALUES (?);";
+        sql = 'UPDATE Users SET Users.EndDateTime = now() WHERE Users.UserId = ? AND Users.EndDateTime IS NULL; INSERT INTO Users (UserId, Name, Email, Passcode) VALUES (?);';
+        
+        connection.query(sql, [UserId, body], function (error, rows, fields){
+            if(error){
+                console.log(error)
+            } else{
+                response.ok("user updated", res)
+            }
+        })
     }
-
-    connection.query(sql, [req.body], function (error, rows, fields){
-        if(error){
-            console.log(error)
-        } else{
-            response.ok("user updated", res)
-        }
-    })
 }
 
 exports.deleteUsers = function (req, res){
-    var userId = req.body.UserId;
-    sql = "UPDATE Users SET Users.EndDateTime = now() WHERE Users.UserId = ? AND Users.EndDateTime IS NULL;";
+    let UserId = req.body.UserId;
+    sql = 'UPDATE Users SET Users.EndDateTime = now() WHERE Users.UserId = ? AND Users.EndDateTime IS NULL;';
 
-    connection.query(sql, [userId], function (error, rows, fields){
+    connection.query(sql, [UserId], function (error, rows, fields){
         if(error){
             console.log(error)
         } else{
