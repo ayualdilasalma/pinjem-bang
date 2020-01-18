@@ -2,13 +2,14 @@ const express = require('express');
 const app = express();
 const bodyparser = require('body-parser');
 const connection = require('./config/db');
+const routes = require('./routes');
+const controller = require('./controller');
 const port = process.env.PORT || 3200;
 
 // middleware
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: false }));
 
-var routes = require('./routes');
 routes (app)
 
 app.get('/', (req, res) => {
