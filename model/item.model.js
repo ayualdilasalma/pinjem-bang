@@ -18,7 +18,7 @@ Item.create = newItem => {
   var query = 'INSERT INTO Items (ownerId, name, description) VALUES (?);';
   query =
     query +
-    'UPDATE Items SET Items.itemId = LAST_INSERT_ID() Items.id = LAST_INSERT_ID()';
+    'UPDATE Items SET Items.itemId = LAST_INSERT_ID() WHERE Items.id = LAST_INSERT_ID()';
   db.query(query, newItem, (err, res) => {
     if (err) {
       queryResult.status = 400;
