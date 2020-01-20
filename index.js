@@ -5,22 +5,14 @@ const connection = require('./config/db');
 const routes = require('./routes');
 const controller = require('./controller');
 const port = process.env.PORT || 3200;
+const mainRoute = require('./routes/main');
 
 // middleware
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: false }));
 
-routes (app)
-
+mainRoute(app);
 app.get('/', (req, res) => {
-  connection.connect(function(err) {
-    if (err) {
-      console.error('error connecting: ' + err.stack);
-      return;
-    }
-  
-    console.log('connected as id ' + connection.threadId);
-  });
   res.send('Hello world, init project');
 });
 
