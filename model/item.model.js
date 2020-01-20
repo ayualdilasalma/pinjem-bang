@@ -15,11 +15,11 @@ var queryResult = {
 };
 
 Item.create = newItem => {
-  var query = 'INSERT INTO Items (ownerId, name, description) VALUES (?);';
+  var query = 'INSERT INTO Items (OwnerId, Name, Description) VALUES (?);';
   query =
     query +
-    'UPDATE Items SET Items.itemId = LAST_INSERT_ID() WHERE Items.id = LAST_INSERT_ID()';
-  db.query(query, newItem, (err, res) => {
+    'UPDATE Items SET Items.ItemId = LAST_INSERT_ID() WHERE Items.id = LAST_INSERT_ID();';
+  db.query(query, [newItem], (err, res) => {
     if (err) {
       queryResult.status = 400;
       queryResult.message = 'Error occured while creating item due to ' + err;
@@ -29,9 +29,8 @@ Item.create = newItem => {
       queryResult.message = 'Create Item success';
       queryResult.data = res;
     }
-
-    return queryResult;
   });
+  return queryResult;
 };
 
 Item.update = (id, item) => {
@@ -76,13 +75,16 @@ Item.getById = function(id) {
       (queryResult.status = 400), (queryResult.data = []);
     } else {
       (queryResult.status = 200), (queryResult.data = rows);
+      console.log(queryResult);
     }
   });
+  console.log(queryResult);
   return queryResult;
 };
 
 Item.deleteItem = function(id) {
   var dataFetch = this.getById(id);
+  console.log(dataFetch);
   if (dataFetch.status === 200) {
     var query =
       'UPDATE Items SET Items.EndDateTime = now() WHERE Items.ItemId = ? AND Items.EndDateTime IS NULL';

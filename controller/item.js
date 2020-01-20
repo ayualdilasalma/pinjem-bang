@@ -9,11 +9,11 @@ exports.create = (req, res) => {
     });
   }
 
-  const item = new Item({
-    name: req.body.name,
-    description: req.body.description,
-    ownerId: req.body.ownerId
-  });
+  const item = {
+    OwnerId: parseInt(req.body.ownerId),
+    Name: req.body.name,
+    Description: req.body.description
+  };
 
   var createdItem = Item.create(item);
   if (createdItem.status === 200) {
