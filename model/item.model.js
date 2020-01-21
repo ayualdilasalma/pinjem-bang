@@ -58,10 +58,12 @@ Item.getAll = () => {
       queryResult.data = [];
       queryResult.message = 'Fetch items failed';
       queryResult.status = 400;
+    } {
+      queryResult.data = row;
+      queryResult.status = 200;
+      queryResult.message = 'Fetch items success';
     }
-    queryResult.data = row;
-    queryResult.status = 200;
-    queryResult.message = 'Fetch items success';
+    
   });
 
   return queryResult;
@@ -72,19 +74,20 @@ Item.getById = function(id) {
     'SELECT Items.* FROM Items WHERE Items.ItemId = ? AND Items.EndDateTime IS NULL';
   db.query(query, id, function(error, rows, field) {
     if (error) {
-      (queryResult.status = 400), (queryResult.data = []);
+      queryResult.data = [];
+      queryResult.message = 'Fetch items failed';
+      queryResult.status = 400;
     } else {
-      (queryResult.status = 200), (queryResult.data = rows);
-      console.log(queryResult);
+      queryResult.data = rows;
+    queryResult.status = 200;
+    queryResult.message = 'Fetch items success';
     }
   });
-  console.log(queryResult);
   return queryResult;
 };
 
 Item.deleteItem = function(id) {
   var dataFetch = this.getById(id);
-  console.log(dataFetch);
   if (dataFetch.status === 200) {
     var query =
       'UPDATE Items SET Items.EndDateTime = now() WHERE Items.ItemId = ? AND Items.EndDateTime IS NULL';
