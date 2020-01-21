@@ -10,11 +10,12 @@ exports.create = (req, res) => {
   }
 
   const item = {
-    OwnerId: parseInt(req.body.ownerId),
-    Name: req.body.name,
-    Description: req.body.description
+    ownerId: parseInt(req.body.ownerId),
+    name: req.body.name,
+    description: req.body.description
   };
 
+  console.log(item);
   var createdItem = Item.create(item);
   if (createdItem.status === 200) {
     response.ok(createdItem.data, res);
@@ -59,7 +60,12 @@ exports.findById = (req, res) => {
 };
 
 exports.update = (req, res) => {
-  var item = req.body.item;
+  const item = {
+    itemId: parseInt(req.body.itemId),
+    ownerId: parseInt(req.body.ownerId),
+    name: req.body.name,
+    description: req.body.description
+  };
   var itemId = req.params.id;
   if (!itemId) {
     res.status(400).send({
