@@ -9,10 +9,10 @@ exports.create = (req, res) => {
     });
   }
 
-  const rentStatus = new RentStatus({
+  const rentStatus = {
     name: req.body.name,
     description: req.body.description
-  });
+  };
 
   var createdRentStatus = RentStatus.create(item);
   if (createdRentStatus.status === 200) {
@@ -58,7 +58,11 @@ exports.findById = (req, res) => {
 };
 
 exports.update = (req, res) => {
-  var rentStatus = req.body.status;
+  const rentStatus = {
+    rentStatusId: req.body.rentStatusId,
+    name: req.body.name,
+    description: req.body.description
+  };
   var rentStatusId = req.params.id;
   if (!rentStatusId) {
     res.status(400).send({
