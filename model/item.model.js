@@ -53,7 +53,7 @@ Item.update = (id, item) => {
 };
 
 Item.getAll = () => {
-  db.query('SELECT * FROM Items', (err, row, fields) => {
+  db.query('SELECT * FROM Items WHERE Items.EndDateTime IS NULL', (err, row, fields) => {
     if (err) {
       queryResult.data = [];
       queryResult.message = 'Fetch items failed';
