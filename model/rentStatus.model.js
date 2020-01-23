@@ -13,12 +13,13 @@ var response = {
 };
 
 RentStatus.create = newStatus => {
+  var values = [newStatus.name, newStatus.description];
   var query = 'INSERT INTO RentStatuses (name, description) VALUES (?);';
   query =
     query +
     'UPDATE RentStatuses SET RentStatuses.RentStatusId = LAST_INSERT_ID() WHERE RentStatuses.id = LAST_INSERT_ID()';
 
-  db.query(query, newStatus, (err, res) => {
+  db.query(query, [values], (err, res) => {
     if (err) {
       response.status = 400;
       response.message =
@@ -52,9 +53,10 @@ RentStatus.update = (id, rentStatus) => {
   if (dataFetch.status === 200) {
     var query =
       'UPDATE RentStatuses SET RentStatuses.EndDateTime = now() WHERE RentStatuses.RentStatusId = ? AND RentStatuses.EndDateTime IS NULL;';
-    query = query + 'INSERT INTO RentStatuses (Name, Description) VALUES (?);';
+    query = query + 'INSERT INTO RentStatuses (RentStatusId, Name, Description) VALUES (?);';
+    var values = [rentStatus.rentStatusId, rentStatus.name, rentStatus.description];
 
-    db.query(query, [id, rentStatus], function(error, rows, fields) {
+    db.query(query, [id, values], function(error, rows, fields) {
       if (error) {
         response.status = 400;
         response.message = 'Update rent status failed';
@@ -68,7 +70,7 @@ RentStatus.update = (id, rentStatus) => {
 };
 
 RentStatus.getAll = () => {
-  db.query('SELECT * FROM RentStatuses', (err, row, fields) => {
+  db.query('SELECT * FROM RentStatuses WHERE RentStatuses.EndDateTime IS NULL', (err, row, fields) => {
     if (err) {
       response.data = [];
       response.message = 'Fetch rent status failed';

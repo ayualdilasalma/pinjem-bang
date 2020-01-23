@@ -14,12 +14,13 @@ var queryResult = {
   data: []
 };
 
-Item.create = newItem => {
+Item.create = function(newItem) {
+  var itemUpdated = [newItem.ownerId, newItem.name, newItem.description];
   var query = 'INSERT INTO Items (OwnerId, Name, Description) VALUES (?);';
   query =
     query +
     'UPDATE Items SET Items.ItemId = LAST_INSERT_ID() WHERE Items.id = LAST_INSERT_ID();';
-  db.query(query, [newItem], (err, res) => {
+  db.query(query, [itemUpdated], (err, res) => {
     if (err) {
       queryResult.status = 400;
       queryResult.message = 'Error occured while creating item due to ' + err;
@@ -33,16 +34,17 @@ Item.create = newItem => {
   return queryResult;
 };
 
-Item.update = (id, item) => {
+Item.update = function (id, item) {
+  var values = [item.itemId, item.ownerId, item.name, item.description];
   var dataById = this.getById(id);
   if (dataById.status === 200) {
     var query =
       'UPDATE Items SET Items.EndDateTime = now() WHERE Items.ItemId = ? AND Items.EndDateTime IS NULL; INSERT INTO Items (ItemId, OwnerId, Name, Description) VALUES (?);';
 
-    db.query(query, [id, item], function(error, rows, fields) {
+    db.query(query, [id, values], function(error, rows, fields) {
       if (error) {
         queryResult.status = 400;
-        queryResult.message = 'Update item failed';
+        queryResult.message = 'Update item failed due to ' + error;
       } else {
         queryResult.status = 200;
         queryResult.message = 'Update item success';
@@ -52,7 +54,7 @@ Item.update = (id, item) => {
   return queryResult;
 };
 
-Item.getAll = () => {
+Item.getAll = function() {
   db.query('SELECT * FROM Items WHERE Items.EndDateTime IS NULL', (err, row, fields) => {
     if (err) {
       queryResult.data = [];
@@ -75,18 +77,18 @@ Item.getById = function(id) {
   db.query(query, id, function(error, rows, field) {
     if (error) {
       queryResult.data = [];
-      queryResult.message = 'Fetch items failed';
+      queryResult.message = 'Fetch item by id failed due to ' + error;
       queryResult.status = 400;
     } else {
       queryResult.data = rows;
     queryResult.status = 200;
-    queryResult.message = 'Fetch items success';
+    queryResult.message = 'Fetch item by id success';
     }
   });
   return queryResult;
 };
 
-Item.deleteItem = function(id) {
+Item.deleteItem = function() {
   var dataFetch = this.getById(id);
   if (dataFetch.status === 200) {
     var query =
