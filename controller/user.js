@@ -9,12 +9,13 @@ exports.create = (req, res) => {
     });
   }
 
-  const user = new User({
+  const user = {
     name: req.body.name,
     email: req.body.email,
     passcode: req.body.passcode
-  });
+  };
 
+  console.log(user);
   var createdUser = User.create(user);
   if (createdUser.status === 200) {
     response.ok(createdUser.data, res);
@@ -60,13 +61,13 @@ exports.findById = (req, res) => {
 
 exports.update = (req, res) => {
   const user = {
-    userId: req.body.userId,
+    userId: parseInt(req.body.userId),
     name: req.body.name,
     email: req.body.email,
     passcode: req.body.passcode
   };
 
-  const userId = req.params.id;
+  var userId = req.params.id;
   if (!userId) {
     res.status(400).send({
       error: true,

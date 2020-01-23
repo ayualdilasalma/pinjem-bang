@@ -9,12 +9,13 @@ exports.create = (req, res) => {
     });
   }
 
-  const role = new Role({
+  const role = {
     roleId: parseInt(req.body.roleId),
     name: req.body.name,
     description: req.body.description
-  });
+  };
 
+  console.log(role);
   var createdRole = Role.create(role);
   if (createdRole.status === 200) {
     response.ok(createdRole.data, res);
@@ -64,7 +65,7 @@ exports.update = (req, res) => {
     name: req.body.name,
     description: req.body.description
   };
-  const roleId = req.params.id;
+  var roleId = req.params.id;
   if (!roleId) {
     res.status(400).send({
       error: true,

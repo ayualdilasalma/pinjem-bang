@@ -1,5 +1,5 @@
 const db = require("../config/db");
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
 const User = function(user) {
@@ -11,7 +11,7 @@ const User = function(user) {
 
 var queryResult = {
   status: undefined,
-  message: '',
+  message: "",
   data: []
 };
 
@@ -33,7 +33,6 @@ User.create = newUser => {
         queryResult.message = "Create User success";
         queryResult.data = res;
       }
-
     });
   });
   return queryResult;
@@ -50,7 +49,7 @@ User.update = (id, user) => {
       db.query(query, [id, values], function(error, rows, fields) {
         if (error) {
           queryResult.status = 400;
-          queryResult.message = "Update User failed";
+          queryResult.message = "Update User faileddue to " + error;
         } else {
           queryResult.status = 200;
           queryResult.message = "Update User success";
@@ -62,16 +61,20 @@ User.update = (id, user) => {
 };
 
 User.getAll = () => {
-  db.query("SELECT * FROM Users WHERE Users.EndDateTime IS NULL", (err, row, fields) => {
-    if (err) {
-      queryResult.data = [];
-      queryResult.message = "Fetch Users failed";
-      queryResult.status = 400;
+  db.query(
+    "SELECT * FROM Users WHERE Users.EndDateTime IS NULL",
+    (err, row, fields) => {
+      if (err) {
+        queryResult.data = [];
+        queryResult.message = "Fetch Users failed";
+        queryResult.status = 400;
+      } else {
+        queryResult.data = row;
+        queryResult.status = 200;
+        queryResult.message = "Fetch Users success";
+      }
     }
-    queryResult.data = row;
-    queryResult.status = 200;
-    queryResult.message = "Fetch Users success";
-  });
+  );
 
   return queryResult;
 };
@@ -81,9 +84,13 @@ User.getById = function(id) {
     "SELECT Users.* FROM Users WHERE Users.userId = ? AND Users.EndDateTime IS NULL";
   db.query(query, id, function(error, rows, field) {
     if (error) {
-      (queryResult.status = 400), (queryResult.data = []);
+      queryResult.data = [];
+      queryResult.message = "Fetch user by id failed due to " + error;
+      queryResult.status = 400;
     } else {
-      (queryResult.status = 200), (queryResult.data = rows);
+      queryResult.data = rows;
+      queryResult.status = 200;
+      queryResult.message = "Fetch user by id success";
     }
   });
   return queryResult;
@@ -100,9 +107,9 @@ User.deleteUser = function(id) {
         queryResult.message = "Delete User error due to " + error;
         queryResult.data = [];
       } else {
-        (queryResult.data = []),
-          (queryResult.message = "Delete User success"),
-          (queryResult.status = 200);
+        queryResult.data = [];
+        queryResult.message = "Delete User success";
+        queryResult.status = 200;
       }
     });
   } else {

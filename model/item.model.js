@@ -65,7 +65,6 @@ Item.getAll = function() {
       queryResult.status = 200;
       queryResult.message = 'Fetch items success';
     }
-    
   });
 
   return queryResult;
@@ -88,7 +87,7 @@ Item.getById = function(id) {
   return queryResult;
 };
 
-Item.deleteItem = function() {
+Item.deleteItem = function() {// isi id ga sih?
   var dataFetch = this.getById(id);
   if (dataFetch.status === 200) {
     var query =
@@ -101,7 +100,7 @@ Item.deleteItem = function() {
       } else {
         (queryResult.data = []),
           (queryResult.message = 'Delete item success'),
-          (queryResult.status = 200);
+          (queryResult.status = 200); // ini bener kaya gini?
       }
     });
   } else {
