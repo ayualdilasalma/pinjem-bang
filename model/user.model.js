@@ -9,15 +9,21 @@ const User = function(user) {
   this.passcode = user.passcode;
 };
 
+var queryResult = {
+  status: undefined,
+  message: '',
+  data: []
+};
+
 User.create = newUser => {
-  var query = "INSERT INTO Users (userId, Name, Email, Passcode) VALUES (?);";
+  var query = "INSERT INTO Users (Name, Email, Passcode) VALUES (?);";
   query =
     query +
     "UPDATE Users SET Users.userId = LAST_INSERT_ID() WHERE Users.id = LAST_INSERT_ID()";
 
   bcrypt.hash(newUser.passcode, saltRounds, function(err, hash) {
-    newUser.passcode = hash;
-    db.query(query, newUser, (err, res) => {
+    var values = [newUser.name, newUser.email, hash];
+    db.query(query, [values], (err, res) => {
       if (err) {
         queryResult.status = 400;
         queryResult.message = "Error occured while creating User due to " + err;
@@ -28,20 +34,20 @@ User.create = newUser => {
         queryResult.data = res;
       }
 
-      return queryResult;
     });
   });
+  return queryResult;
 };
 
-User.update = (id, User) => {
+User.update = (id, user) => {
   var dataById = this.getById(id);
   if (dataById.status === 200) {
     var query =
       "UPDATE Users SET Users.EndDateTime = now() WHERE Users.userId = ? AND Users.EndDateTime IS NULL; INSERT INTO Users (userId, Name, Email, Passcode) VALUES (?);";
 
-    bcrypt.hash(newUser.passcode, saltRounds, function(err, hash) {
-      newUser.passcode = hash;
-      db.query(query, [id, User], function(error, rows, fields) {
+    bcrypt.hash(user.passcode, saltRounds, function(err, hash) {
+      var values = [user.userId, user.name, user.email, hash];
+      db.query(query, [id, values], function(error, rows, fields) {
         if (error) {
           queryResult.status = 400;
           queryResult.message = "Update User failed";

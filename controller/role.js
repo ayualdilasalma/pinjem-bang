@@ -10,6 +10,7 @@ exports.create = (req, res) => {
   }
 
   const role = new Role({
+    roleId: parseInt(req.body.roleId),
     name: req.body.name,
     description: req.body.description
   });
@@ -58,8 +59,12 @@ exports.findById = (req, res) => {
 };
 
 exports.update = (req, res) => {
-  var role = req.body.role;
-  var roleId = req.params.id;
+  const role = {
+    roleId: parseInt(req.body.roleId),
+    name: req.body.name,
+    description: req.body.description
+  };
+  const roleId = req.params.id;
   if (!roleId) {
     res.status(400).send({
       error: true,

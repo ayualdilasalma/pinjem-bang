@@ -59,8 +59,14 @@ exports.findById = (req, res) => {
 };
 
 exports.update = (req, res) => {
-  var user = req.body.user;
-  var userId = req.params.id;
+  const user = {
+    userId: req.body.userId,
+    name: req.body.name,
+    email: req.body.email,
+    passcode: req.body.passcode
+  };
+
+  const userId = req.params.id;
   if (!userId) {
     res.status(400).send({
       error: true,
