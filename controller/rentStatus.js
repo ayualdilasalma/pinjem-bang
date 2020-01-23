@@ -1,4 +1,4 @@
-const Item = require('../model/item.model');
+const RentStatus = require('../model/rentStatus.model');
 var response = require('../config/res');
 
 exports.create = (req, res) => {
@@ -9,25 +9,24 @@ exports.create = (req, res) => {
     });
   }
 
-  const item = {
-    OwnerId: parseInt(req.body.ownerId),
-    Name: req.body.name,
-    Description: req.body.description
-  };
+  const rentStatus = new RentStatus({
+    name: req.body.name,
+    description: req.body.description
+  });
 
-  var createdItem = Item.create(item);
-  if (createdItem.status === 200) {
-    response.ok(createdItem.data, res);
+  var createdRentStatus = RentStatus.create(item);
+  if (createdRentStatus.status === 200) {
+    response.ok(createdRentStatus.data, res);
   } else {
     res.status(400).send({
       error: true,
-      message: createdItem.message
+      message: createdRentStatus.message
     });
   }
 };
 
 exports.findAll = (req, res) => {
-  var result = Item.getAll();
+  var result = RentStatus.getAll();
   if (result.status === 200) {
     response.ok(result.data, res);
   } else {
@@ -39,14 +38,14 @@ exports.findAll = (req, res) => {
 };
 
 exports.findById = (req, res) => {
-  var itemId = req.params.id;
-  if (!itemId) {
+  var statusId = req.params.id;
+  if (!statusId) {
     res.status(400).send({
       error: true,
       message: 'Please provide an id'
     });
   } else {
-    var result = Item.getById(itemId);
+    var result = RentStatus.getById(statusId);
     if (result.status === 200) {
       response.ok(result.data, res);
     } else {
@@ -59,15 +58,15 @@ exports.findById = (req, res) => {
 };
 
 exports.update = (req, res) => {
-  var item = req.body.item;
-  var itemId = req.params.id;
-  if (!itemId) {
+  var rentStatus = req.body.status;
+  var rentStatusId = req.params.id;
+  if (!rentStatusId) {
     res.status(400).send({
       error: true,
       message: 'Please provide an id'
     });
   } else {
-    var result = Item.update(itemId, item);
+    var result = RentStatus.update(rentStatusId, rentStatus);
     if (result.status === 200) {
       response.ok(result.message, res);
     } else {
@@ -80,14 +79,14 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  var itemId = req.params.id;
-  if (!itemId) {
+  var rentStatusId = req.params.id;
+  if (!rentStatusId) {
     res.status(400).send({
       error: true,
       message: 'Please provide an id'
     });
   } else {
-    var result = Item.deleteItem(itemId);
+    var result = RentStatus.deleteItem(rentStatusId);
     if (result.status === 200) {
       response.ok(result.message, res);
     } else {

@@ -13,7 +13,6 @@ var queryResult = {
     data: []
 };
 
-
 Role.create = newRole => {
     var query = 'INSERT INTO Roles (roleId, Name, Description) VALUES (?);';
     query =

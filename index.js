@@ -1,9 +1,6 @@
 const express = require('express');
 const app = express();
 const bodyparser = require('body-parser');
-const connection = require('./config/db');
-const routes = require('./routes');
-const controller = require('./controller');
 const port = process.env.PORT || 3200;
 const mainRoute = require('./routes/main');
 

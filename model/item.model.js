@@ -15,11 +15,11 @@ var queryResult = {
 };
 
 Item.create = newItem => {
-  var query = 'INSERT INTO Items (ownerId, name, description) VALUES (?);';
+  var query = 'INSERT INTO Items (OwnerId, Name, Description) VALUES (?);';
   query =
     query +
-    'UPDATE Items SET Items.itemId = LAST_INSERT_ID() Items.id = LAST_INSERT_ID()';
-  db.query(query, newItem, (err, res) => {
+    'UPDATE Items SET Items.ItemId = LAST_INSERT_ID() WHERE Items.id = LAST_INSERT_ID();';
+  db.query(query, [newItem], (err, res) => {
     if (err) {
       queryResult.status = 400;
       queryResult.message = 'Error occured while creating item due to ' + err;
@@ -29,9 +29,8 @@ Item.create = newItem => {
       queryResult.message = 'Create Item success';
       queryResult.data = res;
     }
-
-    return queryResult;
   });
+  return queryResult;
 };
 
 Item.update = (id, item) => {
@@ -54,15 +53,17 @@ Item.update = (id, item) => {
 };
 
 Item.getAll = () => {
-  db.query('SELECT * FROM Items', (err, row, fields) => {
+  db.query('SELECT * FROM Items WHERE Items.EndDateTime IS NULL', (err, row, fields) => {
     if (err) {
       queryResult.data = [];
       queryResult.message = 'Fetch items failed';
       queryResult.status = 400;
+    } {
+      queryResult.data = row;
+      queryResult.status = 200;
+      queryResult.message = 'Fetch items success';
     }
-    queryResult.data = row;
-    queryResult.status = 200;
-    queryResult.message = 'Fetch items success';
+    
   });
 
   return queryResult;
@@ -73,9 +74,13 @@ Item.getById = function(id) {
     'SELECT Items.* FROM Items WHERE Items.ItemId = ? AND Items.EndDateTime IS NULL';
   db.query(query, id, function(error, rows, field) {
     if (error) {
-      (queryResult.status = 400), (queryResult.data = []);
+      queryResult.data = [];
+      queryResult.message = 'Fetch items failed';
+      queryResult.status = 400;
     } else {
-      (queryResult.status = 200), (queryResult.data = rows);
+      queryResult.data = rows;
+    queryResult.status = 200;
+    queryResult.message = 'Fetch items success';
     }
   });
   return queryResult;

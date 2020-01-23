@@ -1,4 +1,5 @@
 const db = require("../config/db");
+const bcrypt = require('bcrypt');
 
 const Auth = function(auth) {
   this.email = auth.email;
