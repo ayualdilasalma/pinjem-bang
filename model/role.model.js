@@ -40,7 +40,7 @@ Role.update = (id, role) => {
     var query =
       "UPDATE Roles SET Roles.EndDateTime = now() WHERE Roles.roleId = ? AND Roles.EndDateTime IS NULL; INSERT INTO Roles (roleId, Name, Description) VALUES (?);";
 
-    db.query(query, [id, values], function(error, rows, fields) {
+    db.query(query, [id, values], function (error, rows, fields) {
       if (error) {
         queryResult.status = 400;
         queryResult.message = "Update Role failed " + error;
@@ -72,7 +72,7 @@ Role.getAll = () => {
   return queryResult;
 };
 
-Role.getById = function(id) {
+Role.getById = (id) => {
   var query =
     "SELECT Roles.* FROM Roles WHERE Roles.roleId = ? AND Roles.EndDateTime IS NULL";
   db.query(query, id, function(error, rows, field) {
@@ -89,7 +89,7 @@ Role.getById = function(id) {
   return queryResult;
 };
 
-Role.deleteRole = function(id) {
+Role.deleteRole = (id) => {
   var dataFetch = this.getById(id);
   if (dataFetch.status === 200) {
     var query =

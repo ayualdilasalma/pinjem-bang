@@ -79,7 +79,7 @@ User.getAll = () => {
   return queryResult;
 };
 
-User.getById = function(id) {
+User.getById = (id) => {
   var query =
     "SELECT Users.* FROM Users WHERE Users.userId = ? AND Users.EndDateTime IS NULL";
   db.query(query, id, function(error, rows, field) {
@@ -96,7 +96,7 @@ User.getById = function(id) {
   return queryResult;
 };
 
-User.deleteUser = function(id) {
+User.deleteUser = (id) => {
   var dataFetch = this.getById(id);
   if (dataFetch.status === 200) {
     var query =

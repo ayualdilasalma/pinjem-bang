@@ -80,14 +80,14 @@ Item.getById = function(id) {
       queryResult.status = 400;
     } else {
       queryResult.data = rows;
-    queryResult.status = 200;
-    queryResult.message = 'Fetch item by id success';
+      queryResult.status = 200;
+      queryResult.message = 'Fetch item by id success';
     }
   });
   return queryResult;
 };
 
-Item.deleteItem = function() {// isi id ga sih?
+Item.deleteItem = function(id) {
   var dataFetch = this.getById(id);
   if (dataFetch.status === 200) {
     var query =
@@ -98,9 +98,9 @@ Item.deleteItem = function() {// isi id ga sih?
         queryResult.message = 'Delete item error due to ' + error;
         queryResult.data = [];
       } else {
-        (queryResult.data = []),
-          (queryResult.message = 'Delete item success'),
-          (queryResult.status = 200); // ini bener kaya gini?
+        queryResult.data = [];
+        queryResult.message = 'Delete item success';
+        queryResult.status = 200;
       }
     });
   } else {
