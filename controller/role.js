@@ -15,7 +15,7 @@ exports.create = (req, res) => {
     description: req.body.description
   };
 
-  console.log(role);
+  //console.log(role);
   var createdRole = Role.create(role);
   if (createdRole.status === 200) {
     response.ok(createdRole.data, res);

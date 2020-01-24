@@ -39,7 +39,7 @@ User.create = newUser => {
 };
 
 User.update = (id, user) => {
-  var dataById = this.getById(id);
+  var dataById = User.getById(id);
   if (dataById.status === 200) {
     var query =
       "UPDATE Users SET Users.EndDateTime = now() WHERE Users.userId = ? AND Users.EndDateTime IS NULL; INSERT INTO Users (userId, Name, Email, Passcode) VALUES (?);";
@@ -56,6 +56,7 @@ User.update = (id, user) => {
         }
       });
     });
+    return queryResult;
   }
   return queryResult;
 };
@@ -97,7 +98,7 @@ User.getById = (id) => {
 };
 
 User.deleteUser = (id) => {
-  var dataFetch = this.getById(id);
+  var dataFetch = User.getById(id);
   if (dataFetch.status === 200) {
     var query =
       "UPDATE Users SET Users.EndDateTime = now() WHERE Users.userId = ? AND Users.EndDateTime IS NULL";
@@ -112,6 +113,7 @@ User.deleteUser = (id) => {
         queryResult.status = 200;
       }
     });
+    return queryResult;
   } else {
     queryResult.status = 404;
     queryResult.message = "User Id not found";

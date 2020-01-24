@@ -15,7 +15,7 @@ exports.create = (req, res) => {
     description: req.body.description
   };
 
-  console.log(item);
+  //console.log(item);
   var createdItem = Item.create(item);
   if (createdItem.status === 200) {
     response.ok(createdItem.data, res);

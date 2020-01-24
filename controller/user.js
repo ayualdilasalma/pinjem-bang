@@ -15,7 +15,7 @@ exports.create = (req, res) => {
     passcode: req.body.passcode
   };
 
-  console.log(user);
+  //console.log(user);
   var createdUser = User.create(user);
   if (createdUser.status === 200) {
     response.ok(createdUser.data, res);

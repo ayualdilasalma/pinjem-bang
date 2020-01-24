@@ -35,12 +35,12 @@ Role.create = newRole => {
 
 Role.update = (id, role) => {
   var values = [role.roleId, role.name, role.description];
-  var dataById = this.getById(id);
+  var dataById = Role.getById(id);
   if (dataById.status === 200) {
     var query =
       "UPDATE Roles SET Roles.EndDateTime = now() WHERE Roles.roleId = ? AND Roles.EndDateTime IS NULL; INSERT INTO Roles (roleId, Name, Description) VALUES (?);";
 
-    db.query(query, [id, values], function (error, rows, fields) {
+    db.query(query, [id, values], function(error, rows, fields) {
       if (error) {
         queryResult.status = 400;
         queryResult.message = "Update Role failed " + error;
@@ -49,6 +49,7 @@ Role.update = (id, role) => {
         queryResult.message = "Update Role success";
       }
     });
+    return queryResult;
   }
   return queryResult;
 };
@@ -90,7 +91,7 @@ Role.getById = (id) => {
 };
 
 Role.deleteRole = (id) => {
-  var dataFetch = this.getById(id);
+  var dataFetch = Role.getById(id);
   if (dataFetch.status === 200) {
     var query =
       "UPDATE Roles SET Roles.EndDateTime = now() WHERE Roles.roleId = ? AND Roles.EndDateTime IS NULL";
@@ -105,6 +106,7 @@ Role.deleteRole = (id) => {
         queryResult.status = 200;
       }
     });
+    return queryResult;
   } else {
     queryResult.status = 404;
     queryResult.message = "Role Id not found";
