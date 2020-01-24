@@ -1,4 +1,4 @@
-const Item = require('../model/item.model');
+const Role = require('../model/role.model');
 var response = require('../config/res');
 
 exports.create = (req, res) => {
@@ -9,26 +9,26 @@ exports.create = (req, res) => {
     });
   }
 
-  const item = {
-    ownerId: parseInt(req.body.ownerId),
+  const role = {
+    roleId: parseInt(req.body.roleId),
     name: req.body.name,
     description: req.body.description
   };
 
-  //console.log(item);
-  var createdItem = Item.create(item);
-  if (createdItem.status === 200) {
-    response.ok(createdItem.data, res);
+  //console.log(role);
+  var createdRole = Role.create(role);
+  if (createdRole.status === 200) {
+    response.ok(createdRole.data, res);
   } else {
     res.status(400).send({
       error: true,
-      message: createdItem.message
+      message: createdRole.message
     });
   }
 };
 
 exports.findAll = (req, res) => {
-  var result = Item.getAll();
+  var result = Role.getAll();
   if (result.status === 200) {
     response.ok(result.data, res);
   } else {
@@ -40,14 +40,14 @@ exports.findAll = (req, res) => {
 };
 
 exports.findById = (req, res) => {
-  var itemId = req.params.id;
-  if (!itemId) {
+  var roleId = req.params.id;
+  if (!roleId) {
     res.status(400).send({
       error: true,
       message: 'Please provide an id'
     });
   } else {
-    var result = Item.getById(itemId);
+    var result = Role.getById(roleId);
     if (result.status === 200) {
       response.ok(result.data, res);
     } else {
@@ -60,20 +60,19 @@ exports.findById = (req, res) => {
 };
 
 exports.update = (req, res) => {
-  const item = {
-    itemId: parseInt(req.body.itemId),
-    ownerId: parseInt(req.body.ownerId),
+  const role = {
+    roleId: parseInt(req.body.roleId),
     name: req.body.name,
     description: req.body.description
   };
-  var itemId = req.params.id;
-  if (!itemId) {
+  var roleId = req.params.id;
+  if (!roleId) {
     res.status(400).send({
       error: true,
       message: 'Please provide an id'
     });
   } else {
-    var result = Item.update(itemId, item);
+    var result = Role.update(roleId, role);
     if (result.status === 200) {
       response.ok(result.message, res);
     } else {
@@ -86,14 +85,14 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  var itemId = req.params.id;
-  if (!itemId) {
+  var roleId = req.params.id;
+  if (!roleId) {
     res.status(400).send({
       error: true,
       message: 'Please provide an id'
     });
   } else {
-    var result = Item.deleteItem(itemId);
+    var result = Role.deleteRole(roleId);
     if (result.status === 200) {
       response.ok(result.message, res);
     } else {

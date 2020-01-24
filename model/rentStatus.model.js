@@ -1,6 +1,6 @@
 const db = require('../config/db');
 
-const RentStatus = function(rentStatus) {
+const RentStatus = function (rentStatus) {
   this.rentStatusId = rentStatus.rentStatusId;
   this.name = rentStatus.name;
   this.description = rentStatus.description;
@@ -38,7 +38,7 @@ RentStatus.create = newStatus => {
 RentStatus.getById = id => {
   var query =
     'SELECT RentStatuses.* FROM RentStatuses WHERE RentStatuses.RentStatusId = ? AND RentStatuses.EndDateTime IS NULL';
-  db.query(query, id, function(error, rows, field) {
+  db.query(query, id, function (error, rows, field) {
     if (error) {
       (response.status = 400), (response.data = []);
     } else {
@@ -56,7 +56,7 @@ RentStatus.update = (id, rentStatus) => {
     query = query + 'INSERT INTO RentStatuses (RentStatusId, Name, Description) VALUES (?);';
     var values = [rentStatus.rentStatusId, rentStatus.name, rentStatus.description];
 
-    db.query(query, [id, values], function(error, rows, fields) {
+    db.query(query, [id, values], function (error, rows, fields) {
       if (error) {
         response.status = 400;
         response.message = 'Update rent status failed';
@@ -84,20 +84,20 @@ RentStatus.getAll = () => {
   return response;
 };
 
-RentStatus.deleteStatus = id => {
+RentStatus.deleteStatus = (id) => {
   var dataFetch = this.getById(id);
   if (dataFetch.status === 200) {
     var query =
       'UPDATE RentStatuses SET RentStatuses.EndDateTime = now() WHERE RentStatuses.RentStatusId = ? AND RentStatuses.EndDateTime IS NULL';
-    db.query(query, id, function(error, rows, field) {
+    db.query(query, id, function (error, rows, field) {
       if (error) {
         response.status = 401;
         response.message = 'Delete rent status error due to ' + error;
         response.data = [];
       } else {
-        (response.data = []),
-          (response.message = 'Delete rent status success'),
-          (response.status = 200);
+        response.data = [];
+        response.message = 'Delete rent status success';
+        response.status = 200;
       }
     });
   } else {

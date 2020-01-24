@@ -65,7 +65,6 @@ Item.getAll = function() {
       queryResult.status = 200;
       queryResult.message = 'Fetch items success';
     }
-    
   });
 
   return queryResult;
@@ -81,8 +80,8 @@ Item.getById = function(id) {
       queryResult.status = 400;
     } else {
       queryResult.data = rows;
-    queryResult.status = 200;
-    queryResult.message = 'Fetch item by id success';
+      queryResult.status = 200;
+      queryResult.message = 'Fetch item by id success';
     }
   });
   return queryResult;
@@ -99,9 +98,9 @@ Item.deleteItem = function(id) {
         queryResult.message = 'Delete item error due to ' + error;
         queryResult.data = [];
       } else {
-        (queryResult.data = []),
-          (queryResult.message = 'Delete item success'),
-          (queryResult.status = 200);
+        queryResult.data = [];
+        queryResult.message = 'Delete item success';
+        queryResult.status = 200;
       }
     });
   } else {

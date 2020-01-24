@@ -1,4 +1,4 @@
-const Item = require('../model/item.model');
+const User = require('../model/user.model');
 var response = require('../config/res');
 
 exports.create = (req, res) => {
@@ -9,26 +9,26 @@ exports.create = (req, res) => {
     });
   }
 
-  const item = {
-    ownerId: parseInt(req.body.ownerId),
+  const user = {
     name: req.body.name,
-    description: req.body.description
+    email: req.body.email,
+    passcode: req.body.passcode
   };
 
-  //console.log(item);
-  var createdItem = Item.create(item);
-  if (createdItem.status === 200) {
-    response.ok(createdItem.data, res);
+  //console.log(user);
+  var createdUser = User.create(user);
+  if (createdUser.status === 200) {
+    response.ok(createdUser.data, res);
   } else {
     res.status(400).send({
       error: true,
-      message: createdItem.message
+      message: createdUser.message
     });
   }
 };
 
 exports.findAll = (req, res) => {
-  var result = Item.getAll();
+  var result = User.getAll();
   if (result.status === 200) {
     response.ok(result.data, res);
   } else {
@@ -40,14 +40,14 @@ exports.findAll = (req, res) => {
 };
 
 exports.findById = (req, res) => {
-  var itemId = req.params.id;
-  if (!itemId) {
+  var userId = req.params.id;
+  if (!userId) {
     res.status(400).send({
       error: true,
       message: 'Please provide an id'
     });
   } else {
-    var result = Item.getById(itemId);
+    var result = User.getById(userId);
     if (result.status === 200) {
       response.ok(result.data, res);
     } else {
@@ -60,20 +60,21 @@ exports.findById = (req, res) => {
 };
 
 exports.update = (req, res) => {
-  const item = {
-    itemId: parseInt(req.body.itemId),
-    ownerId: parseInt(req.body.ownerId),
+  const user = {
+    userId: parseInt(req.body.userId),
     name: req.body.name,
-    description: req.body.description
+    email: req.body.email,
+    passcode: req.body.passcode
   };
-  var itemId = req.params.id;
-  if (!itemId) {
+
+  var userId = req.params.id;
+  if (!userId) {
     res.status(400).send({
       error: true,
       message: 'Please provide an id'
     });
   } else {
-    var result = Item.update(itemId, item);
+    var result = User.update(userId, user);
     if (result.status === 200) {
       response.ok(result.message, res);
     } else {
@@ -86,14 +87,14 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  var itemId = req.params.id;
-  if (!itemId) {
+  var userId = req.params.id;
+  if (!userId) {
     res.status(400).send({
       error: true,
       message: 'Please provide an id'
     });
   } else {
-    var result = Item.deleteItem(itemId);
+    var result = User.deleteUser(userId);
     if (result.status === 200) {
       response.ok(result.message, res);
     } else {
