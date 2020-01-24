@@ -88,7 +88,7 @@ Item.getById = function(id) {
   return queryResult;
 };
 
-Item.deleteItem = function() {
+Item.deleteItem = function(id) {
   var dataFetch = this.getById(id);
   if (dataFetch.status === 200) {
     var query =
