@@ -89,6 +89,7 @@ class UserController {
   updateUser(request) {
     const id = request.params.id;
     const userCreate = User.build({
+      UserId: id,
       Name: request.body.name,
       Email: request.body.email,
       Password: request.body.password,
@@ -96,18 +97,17 @@ class UserController {
     });
 
     return new Promise((resolve, reject) => {
-      userCreate
-        .update(
-          {
-            EndDateTime: moment.now()
-          },
-          {
-            where: {
-              UserId: id,
-              EndDateTime: null
-            }
+      User.update(
+        {
+          EndDateTime: moment.now()
+        },
+        {
+          where: {
+            UserId: id,
+            EndDateTime: null
           }
-        )
+        }
+      )
         .then(updatedUser => {
           userCreate
             .save()
