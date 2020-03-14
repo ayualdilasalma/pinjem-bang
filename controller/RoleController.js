@@ -103,12 +103,12 @@ class RoleController {
           },
           {
             where: {
-              ItemId: id,
+              RoleId: id,
               EndDateTime: null
             }
           }
         )
-        .then(updatedRole => {
+        .then(updatedData => {
           updatedRole
             .save()
             .then(createdRole => {

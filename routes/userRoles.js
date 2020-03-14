@@ -22,12 +22,6 @@ module.exports = function(app) {
             .then(data => res.send(data))
             .catch(err => res.send(err))
     );
-    app.route('/roles/:id').put((req, res)=>
-        userRoleCont
-            .updateUserRole(req)
-            .then(data => res.data(data))
-            .catch(err => res.send(err))
-    );
     app.route('/roles/:id').delete((req, res)=> {
         const id = req.params.id;
         RoleCont

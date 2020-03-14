@@ -9,7 +9,7 @@ class UserRoleController {
       userRole
         .findOne({
           where: {
-            Id: id
+            id: id
           }
         })
         .then(data => {
