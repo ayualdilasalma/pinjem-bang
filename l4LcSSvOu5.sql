@@ -35,7 +35,8 @@ CREATE TABLE `Items` (
   `OwnerId` int(11) DEFAULT NULL,
   `Description` varchar(2000) COLLATE utf8_unicode_ci DEFAULT NULL,
   `StartDateTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `EndDateTime` timestamp NULL DEAFULT NULL
+  `EndDateTime` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (Id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -53,7 +54,8 @@ CREATE TABLE `Rent` (
   `RentStartDate` datetime DEFAULT NULL,
   `RentEndDate` datetime DEFAULT NULL,
   `StartDateTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `EndDateTime` timestamp NULL DEAFULT NULL
+  `EndDateTime` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (Id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -68,7 +70,8 @@ CREATE TABLE `RentStatus` (
   `Name` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `Description` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
   `StartDateTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `EndDateTime` timestamp NULL DEAFULT NULL
+  `EndDateTime` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (Id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -83,7 +86,8 @@ CREATE TABLE `Roles` (
   `Name` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `Description` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `StartDateTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `EndDateTime` timestamp NULL DEAFULT NULL
+  `EndDateTime` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (Id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -95,7 +99,8 @@ CREATE TABLE `Roles` (
 CREATE TABLE `UserRole` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `UserId` int(11) NOT NULL,
-  `RoleId` int(11) NOT NULL
+  `RoleId` int(11) NOT NULL,
+  PRIMARY KEY (Id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -111,7 +116,8 @@ CREATE TABLE `Users` (
   `Email` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `Password` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `StartDateTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `EndDateTime` timestamp NULL DEAFULT NULL
+  `EndDateTime` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (Id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -122,7 +128,6 @@ CREATE TABLE `Users` (
 -- Indexes for table `Items`
 --
 ALTER TABLE `Items`
-  ADD PRIMARY KEY (`Id`),
   ADD KEY `ItemId` (`ItemId`),
   ADD KEY `OwnerId` (`OwnerId`);
 
@@ -130,7 +135,6 @@ ALTER TABLE `Items`
 -- Indexes for table `Rent`
 --
 ALTER TABLE `Rent`
-  ADD PRIMARY KEY (`Id`),
   ADD KEY `CustomerId` (`CustomerId`),
   ADD KEY `RentId` (`RentId`),
   ADD KEY `StatusId` (`RentStatusId`),
@@ -140,21 +144,18 @@ ALTER TABLE `Rent`
 -- Indexes for table `RentStatus`
 --
 ALTER TABLE `RentStatus`
-  ADD PRIMARY KEY (`Id`),
   ADD KEY `RentStatus` (`RentStatusId`);
 
 --
 -- Indexes for table `Roles`
 --
 ALTER TABLE `Roles`
-  ADD PRIMARY KEY (`Id`),
   ADD KEY `RoleId` (`RoleId`);
 
 --
 -- Indexes for table `UserRole`
 --
 ALTER TABLE `UserRole`
-  ADD PRIMARY KEY (`Id`),
   ADD KEY `RoleUserId` (`UserId`),
   ADD KEY `RoleRoleId` (`RoleId`);
 
@@ -162,18 +163,7 @@ ALTER TABLE `UserRole`
 -- Indexes for table `Users`
 --
 ALTER TABLE `Users`
-  ADD PRIMARY KEY (`Id`),
   ADD KEY `UserId` (`UserId`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `Users`
---
-ALTER TABLE `Users`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
