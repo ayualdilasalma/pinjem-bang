@@ -1,11 +1,10 @@
 const sequelize = require('sequelize');
 const db = require('../config/dbORM');
-const Users = require('./Users');
 
-const Items = db.define(
-  'Items',
+const Roles = db.define(
+  'Roles',
   {
-    ItemId: {
+    RoleId: {
       type: sequelize.Sequelize.INTEGER
     },
     Name: {
@@ -13,13 +12,6 @@ const Items = db.define(
     },
     Description: {
       type: sequelize.Sequelize.STRING
-    },
-    OwnerId: {
-      type: sequelize.Sequelize.INTEGER,
-      references: {
-        model: Users,
-        key: 'UserId'
-      }
     },
     StartDateTime: {
       type: sequelize.Sequelize.DATE
@@ -39,4 +31,4 @@ const Items = db.define(
   }
 );
 
-module.exports = Items;
+module.exports = Roles;

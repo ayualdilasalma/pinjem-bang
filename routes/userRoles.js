@@ -1,37 +1,37 @@
 'use strict';
-const RoleController = require('../controller/RoleController');
+const UserRoleController = require('../controller/UserRoleController');
 
 module.exports = function(app) {
-    var roleCont = new RoleController();
+    var userRoleCont = new UserRoleController();
     app.route('/roles').get((req, res)=>
-        roleCont
+        userRoleCont
             .findAll()
             .then(data => res.send(data))
             .catch(err => res.send(err))
     );
     app.route('/roles/:id').get((req, res)=> {
         const id = req.params.id;
-        roleCont
+        userRoleCont
             .findById(id)
             .then(data => res.send(data))
             .catch(err => res.status(400).send('Error occured due to ' + err))
     });
     app.route('/roles').post((req, res)=>
-        roleCont
-            .createRole(req)
+        userRoleCont
+            .createUserRole(req)
             .then(data => res.send(data))
             .catch(err => res.send(err))
     );
     app.route('/roles/:id').put((req, res)=>
-        roleCont
-            .updateRole(req)
+        userRoleCont
+            .updateUserRole(req)
             .then(data => res.data(data))
             .catch(err => res.send(err))
     );
     app.route('/roles/:id').delete((req, res)=> {
         const id = req.params.id;
         RoleCont
-          .deleteRole(id)
+          .deleteUserRole(id)
           .then(data => res.send(data))
           .catch(err => res.send(err));
     });

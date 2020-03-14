@@ -1,15 +1,15 @@
-const item = require('../model/Items');
+const role = require('../model/Roles');
 const moment = require('moment');
 
-class ItemController {
+class RoleController {
   constructor() {}
 
   findById(id) {
     return new Promise((resolve, reject) => {
-      item
+      role
         .findOne({
           where: {
-            ItemId: id,
+            RoleId: id,
             endDateTime: null
           }
         })
@@ -22,7 +22,7 @@ class ItemController {
         .catch(error => {
           return reject({
             error: error,
-            message: 'Unable to get item by id',
+            message: 'Unable to get role by id',
             status: 400
           });
         });
@@ -31,7 +31,7 @@ class ItemController {
 
   findAll() {
     return new Promise((resolve, reject) => {
-      item
+      role
         .findAll({
           where: {
             endDateTime: null
@@ -46,29 +46,28 @@ class ItemController {
         .catch(error => {
           return reject({
             error: error,
-            message: 'Unable to get all items',
+            message: 'Unable to get all roles',
             status: 400
           });
         });
     });
   }
 
-  createItem(request) {
-    const itemCreated = item.build({
+  createRole(request) {
+    const roleCreated = role.build({
       Name: request.body.name,
       Description: request.body.description,
-      OwnerId: parseInt(request.body.ownerId),
       EndDateTime: null
     });
 
     return new Promise((resolve, reject) => {
-      itemCreated
+      roleCreated
         .save()
         .then(data => {
           if (data) {
-            itemCreated
+            roleCreated
               .update({
-                ItemId: data.id
+                RoleId: data.id
               })
               .then(updatedData => {
                 resolve({
@@ -81,24 +80,23 @@ class ItemController {
         .catch(error => {
           return reject({
             error: error,
-            message: 'Unable to save the item',
+            message: 'Unable to save the role',
             status: 400
           });
         });
     });
   }
 
-  updateItem(request) {
+  updateRole(request) {
     return new Promise((resolve, reject) => {
       const id = request.params.id;
-      const updatedItem = item.build({
-        ItemId: id,
+      const updatedRole = role.build({
+        RoleId: id,
         Name: request.body.name,
         Description: request.body.description,
-        OwnerId: parseInt(request.body.ownerId),
         EndDateTime: null
       });
-      item
+      role
         .update(
           {
             EndDateTime: moment.now()
@@ -110,20 +108,20 @@ class ItemController {
             }
           }
         )
-        .then(updatedData => {
-          updatedItem
+        .then(updatedRole => {
+          updatedRole
             .save()
-            .then(createdItem => {
+            .then(createdRole => {
               resolve({
                 status: 200,
-                data: createdItem
+                data: createdRole
               });
             })
             .catch(err => {
               return reject({
                 status: 400,
                 error: err,
-                message: 'Failed to create new updated item'
+                message: 'Failed to create new updated role'
               });
             });
         })
@@ -131,7 +129,7 @@ class ItemController {
           return reject({
             error: err,
             status: 400,
-            message: 'Failed to update item'
+            message: 'Failed to update role'
           });
         });
     }).catch(err => {
@@ -143,16 +141,16 @@ class ItemController {
     });
   }
 
-  deleteItem(id) {
+  deleteRole(id) {
     return new Promise((resolve, reject) => {
-      item
+      role
         .update(
           {
             EndDateTime: moment.now()
           },
           {
             where: {
-              ItemId: id,
+              RoleId: id,
               EndDateTime: null
             }
           }
@@ -160,7 +158,7 @@ class ItemController {
         .then(data => {
           resolve({
             status: 200,
-            message: 'Delete Item Success',
+            message: 'Delete Role Success',
             data: data
           });
         })
@@ -174,4 +172,4 @@ class ItemController {
   }
 }
 
-module.exports = ItemController;
+module.exports = RoleController;

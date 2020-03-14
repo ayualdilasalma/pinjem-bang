@@ -2,7 +2,6 @@
 const ItemController = require('../controller/ItemController');
 
 module.exports = function(app) {
-  var item = require('../controller/item');
   var itemCont = new ItemController();
   app.route('/items').get((req, res) =>
     itemCont
